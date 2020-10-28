@@ -8,7 +8,6 @@ const mongoose = require('mongoose');
 const expressHandlebars = require('express-handlebars');
 
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
-
 const dbURL = process.env.MONGODB_URI || 'mongodb+srv://asTG:cYbABlBnxeJhXwX30tTc@cluster0.gte8k.mongodb.net/domo?authSource=admin&replicaSet=atlas-rkzyyn-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true';
 
 const mongooseOptions = {
