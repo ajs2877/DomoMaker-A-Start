@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const expressHandlebars = require('express-handlebars');
+const session = require('express-session');
 
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
 const dbURL = process.env.MONGODB_URI || 'mongodb+srv://asTG:cYbABlBnxeJhXwX30tTc@cluster0.gte8k.mongodb.net/domo?authSource=admin&replicaSet=atlas-rkzyyn-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true';
@@ -31,6 +32,12 @@ app.use(favicon(`${__dirname}/../hosted/img/favicon.png`));
 app.use(compression());
 app.use(bodyParser.urlencoded({
   extended: true,
+}));
+app.use(session({
+  key: 'sessionid',
+  secret: 'Domo Arigato',
+  resave: true,
+  saveUninitialized: true,
 }));
 app.engine('handlebars', expressHandlebars({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
