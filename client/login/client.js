@@ -60,7 +60,7 @@ const LoginWindow = (props) => {
     ); 
 }; 
 
-const signupWindow = (props) => { 
+const SignupWindow = (props) => { 
     return (
     <form id="signupForm" 
             name="signupForm" 
@@ -111,6 +111,7 @@ const setup = (csrf) => {
         return false; 
     }); 
 
+    
     createLoginWindow(csrf); //default view 
 }; 
 
