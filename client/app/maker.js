@@ -3,7 +3,7 @@ const handleDomo = (e) => {
 
     $("#domoMessage").animate({width:'hide'}, 350); 
 
-    if($("#domoName").val() == '' ||  $("#domoAge").val() == '') { 
+    if($("#domoName").val() == '' ||  $("#domoAge").val() == '' ||  $("#domoFavoriteColor").val() == '') { 
         handleError("RAWR! All fields are required"); 
         return false; 
     } 
@@ -11,6 +11,17 @@ const handleDomo = (e) => {
     sendAjax('POST', $("#domoForm").attr("action"), $("#domoForm").serialize(), function() { 
         loadDomosFromServer(); 
     }); 
+    return false; 
+}; 
+
+const deleteDomo = (e) => { 
+    e.preventDefault(); 
+
+    $("#domoMessage").animate({width:'hide'}, 350); 
+
+    sendAjax('POST', '/deleteDomo', `_csrf=${document.querySelector("#_csrfhidden").value}&domo_id=${e.target.getAttribute("data-domo-id")}`, function() { 
+        loadDomosFromServer(); 
+    });
     return false; 
 }; 
 
@@ -28,7 +39,9 @@ const DomoForm = (props) => {
     <input id="domoName" type="text" name="name" placeholder="Domo Name"/> 
     <label htmlFor="age">Age: </label> 
     <input id="domoAge" type="text" name="age" placeholder="Domo Age"/> 
-    <input type="hidden" name="_csrf" value={props.csrf} /> 
+    <label htmlFor="favoritecolor">Favorite Color: </label> 
+    <input id="domoFavoriteColor" type="text" name="favoritecolor" placeholder="Domo Favorite Color"/> 
+    <input type="hidden" name="_csrf" id="_csrfhidden" value={props.csrf} /> 
     <input className="makeDomoSubmit" type="submit" value="Make Domo" /> 
     </form>
     );
@@ -49,6 +62,8 @@ const DomoList = function(props) {
                 <img src="/assets/img/domoface.jpeg" alt="domo face" className="domoFace" /> 
                 <h3 className="domoName"> Name: {domo.name} </h3> 
                 <h3 className="domoAge"> Age: {domo.age} </h3> 
+                <h3 className="domoFavoriteColor"> Favorite Color: {domo.favoritecolor} </h3>
+                <button className="deleteDomo" onClick={deleteDomo} type="button" data-domo-id={domo._id}>Delete</button> 
             </div> 
         ); 
     }); 
@@ -74,7 +89,7 @@ const setup = function(csrf) {
     );
 
     ReactDOM.render(
-        <DomoForm domos={[]} />, document.querySelector("#domos")
+        <DomoForm csrf={csrf} domos={[]} />, document.querySelector("#domos")
     );
 
     loadDomosFromServer();
