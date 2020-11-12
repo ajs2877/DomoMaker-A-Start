@@ -19,7 +19,6 @@ const makerPage = (req, res) => {
   });
 };
 
-
 const makeDomo = (req, res) => {
   if (!req.body.name || !req.body.age || !req.body.favoritecolor) {
     return res.status(400).json({
@@ -75,18 +74,18 @@ const deleteDomo = (request, response) => {
   const req = request;
   const res = response;
 
-  return Domo.DomoModel.findByOwner(req.session.account._id, (err, docs) => {
+  return Domo.DomoModel.findByOwner(req.session.account._id, (err) => {
     if (err) {
       console.log(err);
       return res.status(400).json({ error: 'An error occurred' });
     }
 
-    return Domo.DomoModel.deleteOne({ _id: req.body.domo_id }, function (err) {
-      if(err){
-        console.log(err);
+    return Domo.DomoModel.deleteOne({ _id: req.body.domo_id }, (err2) => {
+      if (err2) {
+        console.log(err2);
         return res.status(400).json({ error: 'An error occurred' });
-      } 
-      return res.json({ action: "success!" });
+      }
+      return res.json({ action: 'success!' });
     });
   });
 };
